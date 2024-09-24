@@ -51,7 +51,7 @@ for ele in new_files:
             lines = [line.replace('\\N',' ') for line in lines]
 
             # lines = [". ".join(line) for line in lines]
-            lines = ". ".join(lines)
+            lines = " ".join(lines)
             data_dict['Subtitles'].append(lines)
             # print(lines)
 
