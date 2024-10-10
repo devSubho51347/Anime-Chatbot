@@ -27,7 +27,7 @@ model = AutoModelForTokenClassification.from_pretrained("eventdata-utd/confliber
 
 df = pd.read_csv("../naruto_scraper/data/Processed_files/Processed_subtitles.csv")
 
-text = df['Subtitles'][21]
+text = df['Subtitles'][50]
 print(text)
 
 
@@ -53,11 +53,13 @@ def remove_similar_characters(char_list):
 
     return unique_list
 
+
 def create_combinations(char_list):
     # Generate all combinations of 2 characters from the list
     combinations = list(itertools.combinations(char_list, 2))
     # Convert tuples to lists for a 2D list format
     return [sorted(list(combo)) for combo in combinations]
+
 
 def create_ner(script):
     script_sent = sent_tokenize(script)
@@ -66,13 +68,12 @@ def create_ner(script):
     merged_sentences = []
     for i in range(0, len(script_sent), 10):
         # Merge 3 sentences at a time using slicing
-        if i+10 <= len(script_sent):
+        if i + 10 <= len(script_sent):
             merged = ' '.join(script_sent[i:i + 10])
             merged_sentences.append(merged)
         else:
             merged = ' '.join(script_sent[i::])
             merged_sentences.append(merged)
-
 
     ner_output = []
     ner_output_processed = [[]]
@@ -97,51 +98,59 @@ def create_ner(script):
         ner_output_processed = ner_output_processed + processed_char_list
     ner_output_processed = [ele for ele in ner_output_processed if len(ele) >= 2]
 
-
     print(ner_output)
     print(ner_output_processed)
 
     return ner_output_processed
 
 
+def generate_char_network(episode=None):
+    if episode is not None:
+        text = df['Subtitles'][episode]
+        character_data = create_ner(text)
+    else:
+        text = df['Subtitles'][20]
+        character_data = create_ner(text)
 
-character_data = create_ner(text)
+    character_df = pd.DataFrame(character_data, columns=['Character 1', 'Character 2'])
 
-character_df = pd.DataFrame(character_data, columns=['Character 1', 'Character 2'])
+    character_df = character_df.groupby(['Character 1', 'Character 2']).size().reset_index(name='Count')
+    print(character_df)
 
-character_df = character_df.groupby(['Character 1', 'Character 2']).size().reset_index(name = 'Count')
-print(character_df)
+    ## create character network
+    G = nx.from_pandas_edgelist(
+        character_df,
+        source='Character 1',
+        target='Character 2',
+        edge_attr='Count',
+        create_using=nx.Graph()
+    )
 
-## create character network
-G = nx.from_pandas_edgelist(
-    character_df,
-    source='Character 1',
-    target='Character 2',
-    edge_attr= 'Count',
-    create_using=nx.Graph()
-)
+    ### Create the Visualization
 
-### Create the Visualization
+    net = Network(notebook=False)
+    node_degree = dict(G.degree)
+    nx.set_node_attributes(G, node_degree, 'size')
+    net.from_nx(G)
 
-net = Network(notebook=False)
-node_degree = dict(G.degree)
-nx.set_node_attributes(G,node_degree,'size')
-net.from_nx(G)
+    html = net.generate_html()
+    html = html.replace("'", "\"")
 
-html = net.generate_html()
-html = html.replace("'","\"")
+    output_html = f"""<iframe style="width: 100%; height: 600px;margin:0 auto" name="result" allow="midi; geolocation; microphone; camera;
+        display-capture; encrypted-media;" sandbox="allow-modals allow-forms
+        allow-scripts allow-same-origin allow-popups
+        allow-top-navigation-by-user-activation allow-downloads" allowfullscreen=""
+        allowpaymentrequest="" frameborder="0" srcdoc='{html}'></iframe>"""
 
-output_html = f"""<iframe style="width: 100%; height: 600px;margin:0 auto" name="result" allow="midi; geolocation; microphone; camera;
-    display-capture; encrypted-media;" sandbox="allow-modals allow-forms
-    allow-scripts allow-same-origin allow-popups
-    allow-top-navigation-by-user-activation allow-downloads" allowfullscreen=""
-    allowpaymentrequest="" frameborder="0" srcdoc='{html}'></iframe>"""
+    with open("sample_output.html", "w") as html_file:
+        html_file.write(output_html)
 
-with open("sample_output.html", "w") as html_file:
-    html_file.write(output_html)
+    print("HTML File has been updated")
 
-import webbrowser
-webbrowser.open('sample_output.html')
+
+
+# import webbrowser
+# webbrowser.open('sample_output.html')
 
 # net.show("Naruto_char_network.html")
 
