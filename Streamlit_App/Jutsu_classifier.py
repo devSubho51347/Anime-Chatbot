@@ -10,10 +10,10 @@ def app():
     st.write("Classify Jutsus based on your input.")
 
     # Textbox for input
-    jutsu_input = st.text_area("Enter the Jutsu or description:", height=100)
+    jutsu_input = st.text_area("Enter the Jutsu or description:", height=100, key="Jutsu Input")
 
     # Predict button
-    if st.button("Predict"):
+    if st.button("Predict", key="Jutsu Predictor"):
         # Placeholder for the prediction logic
         # Replace this with your actual model prediction code
         if jutsu_input:

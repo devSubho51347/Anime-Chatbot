@@ -14,13 +14,26 @@ df = pd.read_csv("../naruto_scraper/data/Processed_files/Processed_subtitles.csv
 
 script = df['Subtitles'][0]
 
-val = pipe(
-    script,
-    candidate_labels=["dialogue", "betrayal", "fight", "respect", "personal development","love","friendship","sacrifice"],
-    multi_label = True
-)
+class ThemeClassifier:
+    def __init__(self,episode):
+        self.episode = episode
 
-print(val)
+    def predictTheme(self):
+        script = df['Subtitles'][self.episode]
+        val = pipe(
+            script,
+            candidate_labels=["dialogue", "betrayal", "fight", "respect", "personal development", "love", "friendship",
+                              "sacrifice"],
+            multi_label=True
+        )
+
+        return val
+
+
+
+
+
+# print(val)
 
 
 

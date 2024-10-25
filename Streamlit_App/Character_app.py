@@ -145,7 +145,7 @@ def app():
         # print(arr)
 
         # arr = [str(x) for x in arr]
-        episode = st.selectbox("Select Episode", arr)
+        episode = st.selectbox("Select Episode", arr, key="Character Network")
 
         ch_nwtrk = CharacterNetworkGenerator()
         ch_nwtrk.generate_char_network(episode)
