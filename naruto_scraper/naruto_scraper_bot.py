@@ -35,6 +35,8 @@ class QuotesSpider(scrapy.Spider):
 
             href = anchor.css('::attr(href)').get()
 
+            print(1)
+
             data_dict = scrapy.Request("https://naruto.fandom.com" + href, callback=self.jutsu_parser)
 
             yield data_dict
@@ -98,6 +100,7 @@ class QuotesSpider(scrapy.Spider):
                             pass
                         else:
                             my_dict[ele] = ""
+                    my_dict['jutsu_name'] = title
 
         soup.find('aside').decompose()
 
@@ -106,5 +109,7 @@ class QuotesSpider(scrapy.Spider):
         jutsu_description = jutsu_description.split('Trivia')[0].strip()
 
         my_dict['jutsu_description'] = jutsu_description
+
+        print(my_dict)
 
         return my_dict
