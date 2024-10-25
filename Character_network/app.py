@@ -1,6 +1,7 @@
 import gradio as gr
 import os
 from ner_extractor import generate_char_network as gcn
+import numpy as np
 
 
 # Define a function to read and return the contents of the HTML file
@@ -21,10 +22,17 @@ def render_html_file(episode):
         return "<h1>Error: HTML file not found!</h1>"
 
 
+arr = np.arange(1, 221)
+# print(arr)
+
+arr = [str(x) for x in arr]
+# print(arr)
+
+
 # Create the Gradio interface
 app = gr.Interface(
     fn=render_html_file,  # Function to render the HTML
-    inputs=gr.Dropdown(choices=['20', '22', '23', '24', '25'], label="Select a Value"),   # No inputs needed
+    inputs=gr.Dropdown(choices=arr, label="Select a Value"),  # No inputs needed
     outputs=gr.HTML(),  # Output component to display HTML
     title="Network Visualization",  # Title of the Gradio app
     description="This app renders an HTML file with network visualization."
