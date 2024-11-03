@@ -186,7 +186,7 @@ class CharacterNetworkGenerator:
         self.nlp = spacy.load("en_core_web_trf")
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForTokenClassification.from_pretrained(model_name)
-        self.df = pd.read_csv(files[0])
+        self.df = pd.read_csv(csv_path)
 
     def normalize(self, text):
         return re.sub(r'[^a-zA-Z]', '', text).lower()
