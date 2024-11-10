@@ -1,4 +1,4 @@
-Naruto Anime Streamlit App
+## Naruto Anime Streamlit App
 This is a Streamlit-based application designed for the Naruto Anime. The app features multiple functionalities related to episode analysis, character network exploration, classification tasks, and an interactive chatbot for Naruto characters.
 
 Functionalities:
