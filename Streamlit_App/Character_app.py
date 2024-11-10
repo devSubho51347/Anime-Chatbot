@@ -6,6 +6,7 @@ from PIL import Image
 import streamlit.components.v1 as components
 from glob import glob
 import sys
+
 sys.path.append('D:\Python_projects\Anime-Chatbot')
 from Character_network import CharacterNetworkGenerator
 import numpy as np
@@ -112,7 +113,6 @@ import matplotlib.pyplot as plt
 def app():
     # st.title("Welcome to the Character Network App")
 
-
     #
     # def generate_character_network(character):
     #     G = nx.Graph()
@@ -150,15 +150,12 @@ def app():
         ch_nwtrk = CharacterNetworkGenerator()
         ch_nwtrk.generate_char_network(episode)
 
-
         # G = generate_character_network(character)
         #
         # # Plot the network
         # fig, ax = plt.subplots()
         # nx.draw(G, with_labels=True, node_color="skyblue", font_size=12, font_weight="bold", ax=ax)
         # st.pyplot(fig)
-
-
 
         with open(files[0], "r", encoding="utf-8") as html_file:
             html_content = html_file.read()

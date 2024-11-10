@@ -5,7 +5,7 @@ spacy~=3.7.6
 nltk~=3.9.1
 networkx~=3.3
 pyvis~=0.3.2
-transformers~=4.44.2
+transformers~=4.46.2
 torch~=2.4.1
 regex~=2024.9.11
 streamlit~=1.37.0
@@ -14,3 +14,5 @@ pillow~=10.4.0
 gradio~=4.44.0
 numpy~=1.26.4
 streamlit-option-menu
+datasets~=3.1.0
+plotly~=5.24.1

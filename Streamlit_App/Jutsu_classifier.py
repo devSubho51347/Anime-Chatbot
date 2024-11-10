@@ -2,8 +2,10 @@
 import streamlit as st
 from glob import glob
 import sys
+
 sys.path.append('D:\Python_projects\Anime-Chatbot')
 from Jutsu_Classifier_Module import JutsuPredictor
+
 
 def app():
     st.title("Jutsu Classifier - Finetuned Roberta Transformer")
@@ -24,4 +26,3 @@ def app():
             st.markdown(f"<span style='color:green; font-weight:bold;'>{prediction}</span>", unsafe_allow_html=True)
         else:
             st.write("Please enter a Jutsu description to get a prediction.")
-
