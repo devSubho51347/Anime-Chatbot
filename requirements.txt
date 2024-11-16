@@ -16,3 +16,7 @@ numpy~=1.26.4
 streamlit-option-menu
 datasets~=3.1.0
 plotly~=5.24.1
+huggingface-hub~=0.25.1
+openai~=1.54.4
+peft~=0.13.2
+python-dotenv~=1.0.1
